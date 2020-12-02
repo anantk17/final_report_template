@@ -1,4 +1,33 @@
 \section{Related Work}
-\label{sec:related_work}
 
-The related work of your project~\cite{Dijkstra:SOSP:1967}.
+\subsection{Auditing Real Time Systems}
+The current state of CPS security has been studied in \cite{sadeghi2015dac,cps_sec_survey17,2016cps_sec}.
+%We want to show that the security practices for CPS are not exactly the same as that of typical IT settings - given their unique requirements 
+Sadehgi et al. \cite{sadeghi2015dac} argue that the security playbook used for typical IT systems cannot be replicated for industrial CPS, because availability is a fundamental requirement for CPS. Their work also reinforces our assumption that real-time systems can be resource-constrained in terms of computation, memory, and energy. 
+
+%Show that CPS is not designed with security as an afterthought.
+With the use of CPS increasing in medical devices, automobiles, smart grids, and industrial equipment, attackers are able to exploit this ever growing attack surface and cause serious damage \cite{cps_sec_survey17}  %we are increasingly seeing security vulnerabilities due to security being an afterthought in the design process leading to multiple attacks causing multiple security and privacy issues \cite{cps_sec_survey17}.
+
+%Show existing rel-time intrusion detection systems are limited in some respect.
+In order to detect ongoing attacks, intrusion detection systems have been designed specifically with the challenges of cyber-physical systems in mind \cite{2010cpsIDS,yoon2013rtas,pellizzoni2015}. These solutions can often require dedicated hardware \cite{yoon2013rtas} or depend on static analysis of the application code \cite{2010cpsIDS} to perform intrusion detection, which constrains the adoption of these solutions.
+
+%Show certain class of attacks are designed specifically for RT world in mind.
+On the other hand, specific attacks such as ScheduLeak \cite{scheduleak19} have also been designed to target and exploit real-time systems as well. These attacks cannot be detected by the traditional intrusion detection systems as they utilize scheduling side channels, which are not monitored in a typical server setting.
+
+%TODO: 
+\todo[inline]{Show that the methodology here should be suitable across domains as all auditing systems follow similar architectural patterns}
+%We modified the Real-Time Linux kernel for building Ellipsis to ensure that our solution remains agnostic of the underlying hardware and can be widely applicable.
+%To ensure the utility of our solution across a wide variety of hardware platforms, our work focuses on making changes to the Real-Time Linux \cite{rt_linux} kernel, and not relying on specialstatic program analysis to ensure compatibility with a wide variety of workloads.
+
+\subsection{System Auditing}
+Several audit logging systems have been proposed or are in active use today \cite{audit,ma2016protracer,gehani2012spade,hifi2012}. \cite{hifi2012} leverages Linux Security Module to monitor operations on kernel data structures. \cite{bates2015trustworthy} provides a general and secure framework for writing such provenance systems at the operating system level. Linux Audit framework \cite{audit} is the most practical and widely used. The framework provides a general logging infrastructure that allows the integration of plugins to extend the system.
+
+These provenance systems have associated storage and runtime costs \cite{bates2017,maUsenix18}. They also suffer from a dependency explosion which slows down forensic analysis. Execution partioning techniques such as BEEP, ProTracer, Windows Reduction decompose long running applications into autonomous units of work and remove false dependencies to address the problem of dependency explosion.  We use similar ideas in Ellipsis, but without needing to add any additional instrumentation. The well-formed nature of the real-time tasks further ensures correctness of these execution units (i.e templates).  
+
+In the case of resource-constrained cyber-physical systems, these costs are of greater significance as compared to typical server-based workloads. CPS systems tend to have lower available storage as well as stricter schedules, which make such costly solutions unsuitable. 
+
+Through our work, we want to adapt these general provenance systems for real-time systems, by reducing the associated storage and runtime costs as a start.
+
+\subsection{Real Time Scheduling}
+Talk about real time scheduling, how we take cues from real time garbage collectors to setup and understand the behavior of the audit system.
+

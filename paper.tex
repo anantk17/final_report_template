@@ -1,4 +1,6 @@
 \documentclass[sigplan,screen,10pt]{acmart}
+\usepackage{todonotes,xspace}
+\newcommand{\Sys}{{\sc \textit{Ellipsis}}\xspace}
 \settopmatter{printfolios=true,printccs=false,printacmref=false}
 \renewcommand\footnotetextcopyrightpermission[1]{}
 
@@ -6,20 +8,25 @@
 
 \begin{document}
 
-\title{Your Very Nice Project Title}
+\title{Measuring System Auditing Overheads in Real-Time Systems}
 
-\author{Author Name, Author Name, Author Name}
+\author{Anant Kandikuppa}
 \affiliation{
   \institution{University of Illinois at Urbana-Champaign}
 }
-\email{{netid1, netid2, netid3}@illinois.edu}
+\email{{anantk3}@illinois.edu}
+
+
 
 \input{abstract}
 
 \maketitle
 
 \input{introduction}
-\input{middle_sections}
+\input{background}
+\input{measurement}
+\input{evaluation}
+\input{discussion}
 \input{related_work}
 \input{conclusion}
 

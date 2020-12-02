@@ -1,0 +1,43 @@
+\section{Measurement Setup / Design}
+\subsection{System Model}
+\begin{table}[t]%
+    \centering%
+    \caption{Evaluation Platform}%
+    \label{tab:eval_setup}%
+    \resizebox{.8\linewidth}{!}{
+    \begin{tabular}{|c|c|}%
+    \hline
+    Platform & Raspberry Pi 4~\cite{rpi4}
+    \\ \hline
+    Processor & ARM Cortex A-72 4 core~\cite{a72}
+    \\ \hline
+    Memory & 4 GB
+    \\ \hline
+    OS & Linux 4.19~\cite{kernellinux}
+    \\ \hline
+    Patches & Preempt RT~\cite{preemptrt}
+    \\ \hline
+    Kernel Source & \href{https://github.com/raspberrypi/linux/tree/rpi-4.19.y-rt}{raspberrypi/linux}~\cite{rpi_rt}
+    % Kernel Source & raspberrypi/linux~\cite{rpi_rt}
+    \\ \hline
+    Application & \href{https://github.com/ArduPilot/ardupilot}{Ardupilot}~\cite{ardupilot}
+    % Application & Ardupilot~\cite{ardupilot}
+    \\ \hline
+    Linux Config &
+    \begin{tabular}{r@{ = y}l}
+    CONFIG\_PREEMPT\_RT\_FULL \\
+    CONFIG\_AUDIT \\
+    CONFIG\_AUDITSYSCALL    
+    \end{tabular}
+    \\ \hline
+     & backlog limit = 50000 \\ 
+    Audit Config & backlog wait time = 0 \\
+    & failure flag = 1 \#printk
+    \\ \hline
+    CPUFreq Governor & Performance~\cite{cpu_freq}
+    \\ \hline
+    \end{tabular}%
+    }
+    \end{table}%
+\subsection{Real Time Task Model}
+\subsection{Instrumentation}

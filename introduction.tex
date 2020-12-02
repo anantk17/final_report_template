@@ -1,5 +1,21 @@
 \section{Introduction}
 \label{sec:introduction}
 
-The introduction of your awsome 523 project.
+Cyber-Physical Systems (CPS) are increasingly being used in automobiles, medical devices and industrial equipment. The use of internet connected devices in these domains is only expected to increase in the future with the advent of 5G technology~\cite{cps_sec_1}. Interaction of CPS with the physical environment is an important differentiator from run of the mill IoT devices. These interactions often introduce real-time (RT) constraints in the system. For example, one would expect airbags in an automobile to deploy within milliseconds of a collision.
+
+%Attacks on CPS 
+Attacks on industrial CPS are not new. Stuxnet was uncovered in 2010 \cite{stuxnet} amidst a lot of media attention and led to the discovery of a wide variety of long-term stealthy Advanced Persistent Threat (APT) attacks against industrial CPS. The US FDA recently notified healthcare providers about 11 security vulnerabilities that were found in actively used medical devices~\cite{cps_sec_3}. Over the past couple of years, automobile cyber-security incidents have nearly doubled as well~\cite{cps_sec_2}.
+
+%Link to attacks in real world settings
+Such threats have been around in more traditional data-center settings for a while now. Host Intrusion Detection (HID) systems have been traditionally used to protect computing infrastructure against external attackers. HIDs typically monitor system events to derive a sense of normal system behavior, highlighting any deviation from the normal as attacker behavior. System audit logs are the most common source of event streams that HID systems build upon. The Linux Audit subsystem provides a means to capture auditing information with the Windows Event Viewer providing similar functionality in Windows.
+
+%Show how the predictable behavior of CPS opens up a angle of attack
+But these auditing techniques cannot be directly applied to CPS due to its peculiar resource and timing constraints. Auditing introduces a significant temporal latency and storage costs which might adversely impact CPS performance~\cite{maUsenix18}. Our novel audit reduction technique \Sys, aims to bring Linux Audit to real-time CPS while keeping up with its unique constraints. By showing a means to reduce audit log generation by leveraging predictable CPS behavior, we provide a way forward for enabling auditing in real-time cyber-physical systems.
+
+
+The \textbf{contributions} of this paper can be summarized as :
+\begin{itemize}
+    \item We present \Sys, a novel audit log reduction scheme that is designed for real-time CPS applications.
+    \item We evaluate \Sys against a real world autopilot application and find that \Sys retains all audit information while meeting temporal requirements.
+\end{itemize}
 
