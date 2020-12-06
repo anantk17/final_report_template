@@ -1,4 +1,4 @@
-\section{Evaluation}
+\section{Measurements}
 
 \todo[inline]{Give context about benchmarking applications and why we chose them and the audit rules and stuff}
 
@@ -20,7 +20,7 @@
 When the kaudit buffer is full, new audit messages are lost; hence, to ensure that suspicious events are recorded, it is essential that \textit{the buffer is never full}.
 The variations that we see in the plots can be attributed to the scheduling of the non real-time \textit{kauditd} thread that is responsible for sending the outstanding audit messages to user-space for retention on disk. We observe that the backlog builds with time when \textit{kauditd} isn't scheduled and drops sharply when \textit{kauditd} eventually gets CPU time. 
 
-As \textit{kauditd} is a non real-time thread running with no priority, it contends with multiple background processes for CPU time resulting in high buildup of messages in the kaudit buffer. Reducing the pressure of incoming audit messages using a kernel based log reduction schemef like KCAL \cite{maUsenix18} or increasing the rate of draining the kaudit buffer could be suitable approaches to ensure lossless auditing in resource constrained systems.
+As \textit{kauditd} is a non real-time thread running with no priority, it contends with multiple background processes for CPU time resulting in high buildup of messages in the kaudit buffer. Reducing the pressure of incoming audit messages using a kernel based log reduction scheme like KCAL \cite{Ma2018} or increasing the rate of draining the kaudit buffer could be suitable approaches to ensure lossless auditing in resource constrained systems.
 
 \subsection{Audit Latency}
 \textbf{Experiment:}
@@ -31,7 +31,7 @@ As \textit{kauditd} is a non real-time thread running with no priority, it conte
     \caption{\label{fig:eval_latency}Audit commit latencies over time for Linux Audit plotted as a Cumulative Distribution Function (CDF). The experiment measures the time between the generation of an audit message and before the message is written to disk in userspace by the \textit{auditd} thread. For a chosen commit time \textit{t} on the x-axis, the y-axis shows the fraction of the total messages that encountered delay of less than \textit{t} microseconds.}
 \end{figure}
 
-For measuring the amount of time each audit message spends in the audit subsystem, the ArduPilot application was executed over 10K iterations and the audit latency was computed from the commit time and the audit time of each audit message obtained from the log file. The non real time \textit{kauditd} and \textit{auditd} threads are run with a nice value of 0 and -4 respectively.
+For measuring the amount of time each audit message spends in the audit subsystem, the ArduPilot application was executed over 10K iterations and the audit latency was computed from the commit time and the audit time of each audit message obtained from the log file. The non real time \textit{kauditd} and \textit{auditd} threads are assigned a nice value of 0 and -4 respectively.
 
 \textbf{Observations:} From Figure~\ref{fig:eval_latency}, we see that the audit latencies across 140k audit messages has a very wide range from 130 microseconds to 1.38 seconds with a median of \~740 ms. 
 
@@ -52,7 +52,10 @@ For measuring the amount of time required to process a single audit message by t
 
 \textbf{Observations:} From Figure~\ref{fig:eval_throughput}, we observe that for the PRI case, the interval for processing audit messages varies from 88 $\mu$s to 5ms. Introducing real time priorities and core pinning reduces the variance in measurements and reduces the maximum interval to 200 $\mu$s.
 
-\textbf{Discussion:} \todo[inline]{Wrap up discussion - fairly obvious that low priority + core pinning would have worked - reduces time wasted in moving task around and moves it above background task, ensures CPU time -  need to add an additional core to ensure enough CPU time for the buffer - that could be reasonable as it can be factored in during the design phase itself - having an upper bound on the audit throughput helps plan for schedulability}
+\textbf{Discussion:} %\todo[inline]{Wrap up discussion - fairly obvious that low priority + core pinning would have worked - reduces time wasted in moving task around and moves it above background task, ensures CPU time -  need to add an additional core to ensure enough CPU time for the buffer - that could be reasonable as it can be factored in during the design phase itself - having an upper bound on the audit throughput helps plan for schedulability}
+The order of magnitude reduction in time required to process an audit message corresponding to a system call event highlights the competition for prcocessor time in the system. Assigning a low real time priority to both threads and pinning the userspace \textit{auditd} thread to a core, reduces this competition and allows the audit subsytem to receive sustained processor time, thereby eliminating delays due to preemption and context switching.\\
+A naive approach to lossless auditing could be to introduce an additional core in the system dedicated to auditing. If the real time application has enough slack to process audit logs generated in a hyperperiod, we can assign a low real-time priority to both audit threads to avoid additional hardware resources. The estimates for audit processing times obtained from the experiment can help arrive at a lower bound on the available slack per hyperperiod. For real time systems which undergo rigorous schedulability analysis before deployment, choosing either apporach can be a conscious decision based on the timing profile of the system.
 
 \subsection{Summary of Results}
-\todo[inline]{Summarize takeaways - timing comes in handy to understand resource allocation - we can understand if log reduction is required once we are maxed out on our resource allocation.}
+%\todo[inline]{Summarize takeaways - timing comes in handy to understand resource allocation - we can understand if log reduction is required once we are maxed out on our resource allocation.}
+Based on the measurements, we find that naively enabling auditing on a real-time system can have serious implications on the completeness of audit logs. Log reduction techniques can help us ensure completeness of audit logs while accounting for synchronous and asynchronous overheads introduced by auditing frameworks can help reliably schedule real-time tasks. %scan help us auditing system calls can also impact schedulability of real-time tasks.% and a synergistic co-design of the audit framework and hardware might be required to ensure lossless auditing in a real-time system.

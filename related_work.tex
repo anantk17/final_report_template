@@ -1,33 +1,24 @@
 \section{Related Work}
 
-\subsection{Auditing Real Time Systems}
-The current state of CPS security has been studied in \cite{sadeghi2015dac,cps_sec_survey17,2016cps_sec}.
-%We want to show that the security practices for CPS are not exactly the same as that of typical IT settings - given their unique requirements 
-Sadehgi et al. \cite{sadeghi2015dac} argue that the security playbook used for typical IT systems cannot be replicated for industrial CPS, because availability is a fundamental requirement for CPS. Their work also reinforces our assumption that real-time systems can be resource-constrained in terms of computation, memory, and energy. 
-
-%Show that CPS is not designed with security as an afterthought.
-With the use of CPS increasing in medical devices, automobiles, smart grids, and industrial equipment, attackers are able to exploit this ever growing attack surface and cause serious damage \cite{cps_sec_survey17}  %we are increasingly seeing security vulnerabilities due to security being an afterthought in the design process leading to multiple attacks causing multiple security and privacy issues \cite{cps_sec_survey17}.
-
-%Show existing rel-time intrusion detection systems are limited in some respect.
-In order to detect ongoing attacks, intrusion detection systems have been designed specifically with the challenges of cyber-physical systems in mind \cite{2010cpsIDS,yoon2013rtas,pellizzoni2015}. These solutions can often require dedicated hardware \cite{yoon2013rtas} or depend on static analysis of the application code \cite{2010cpsIDS} to perform intrusion detection, which constrains the adoption of these solutions.
-
-%Show certain class of attacks are designed specifically for RT world in mind.
-On the other hand, specific attacks such as ScheduLeak \cite{scheduleak19} have also been designed to target and exploit real-time systems as well. These attacks cannot be detected by the traditional intrusion detection systems as they utilize scheduling side channels, which are not monitored in a typical server setting.
-
-%TODO: 
-\todo[inline]{Show that the methodology here should be suitable across domains as all auditing systems follow similar architectural patterns}
-%We modified the Real-Time Linux kernel for building Ellipsis to ensure that our solution remains agnostic of the underlying hardware and can be widely applicable.
-%To ensure the utility of our solution across a wide variety of hardware platforms, our work focuses on making changes to the Real-Time Linux \cite{rt_linux} kernel, and not relying on specialstatic program analysis to ensure compatibility with a wide variety of workloads.
-
 \subsection{System Auditing}
-Several audit logging systems have been proposed or are in active use today \cite{audit,ma2016protracer,gehani2012spade,hifi2012}. \cite{hifi2012} leverages Linux Security Module to monitor operations on kernel data structures. \cite{bates2015trustworthy} provides a general and secure framework for writing such provenance systems at the operating system level. Linux Audit framework \cite{audit} is the most practical and widely used. The framework provides a general logging infrastructure that allows the integration of plugins to extend the system.
+%Why auditing is relevant in today's world.
+Due to its value in threat detection and investigation, system auditing is the subject of renewed interest in traditional systems. While a number of experimental audit frameworks have incorporated notions of data provenance \cite{Bates2015},\cite{Pasquier2017b},\cite{Pohly2012},\cite{Pasquier2017a}, the bulk of this work is also based on commodity audit frameworks such as Linux Audit. Techniques have also been proposed to extract threat intelligence from large volumes of log data \cite{Pei2016,203676,Kwon2018,Hassan2019}. In this work, we seek to understand if such techniques are directly applicable to RTS while adhering to the unique temporal and resource constraints of the domain. Our study finds that there is a need for solutions in the RTS space that build upon the notion of execution partitioning of log activity \cite{Kwon2018,Hassan2019,Hassan2020,Ma2017,Lee2013a}, which decomposes long lived applications into autonomous units of work to reduce false dependencies in forensic investigations.
 
-These provenance systems have associated storage and runtime costs \cite{bates2017,maUsenix18}. They also suffer from a dependency explosion which slows down forensic analysis. Execution partioning techniques such as BEEP, ProTracer, Windows Reduction decompose long running applications into autonomous units of work and remove false dependencies to address the problem of dependency explosion.  We use similar ideas in Ellipsis, but without needing to add any additional instrumentation. The well-formed nature of the real-time tasks further ensures correctness of these execution units (i.e templates).  
 
-In the case of resource-constrained cyber-physical systems, these costs are of greater significance as compared to typical server-based workloads. CPS systems tend to have lower available storage as well as stricter schedules, which make such costly solutions unsuitable. 
+\subsection{Forensic Reduction}
+ A lot of work has gone into improving the cost-utility ratio of system auditing by pruning, summarizing, or compressing audit data that is unlikely to be used during investigations \cite{Tang2018,Xu2016,Ma2015,Ben2018,Hassan2018a,Bates2015a,Bates2017b,Hossain2018,Lee2013}. Of these, Ma et al.'s KCAL~\cite{Ma2018} and ProTracer~\cite{Ma2016} systems are a few that inline their reduction methods into the kernel. Our findings suggest that userspace reduction solutions might not be effective in RTS as resource constraints might cause loss of audit information in the kernel. Although it is unclear if the existing kernel based approaches are suitable for real-time applications, inline kernel log reduction seems to provide a promising path forward to enable efficient system auditing in RTS.
 
-Through our work, we want to adapt these general provenance systems for real-time systems, by reducing the associated storage and runtime costs as a start.
-
-\subsection{Real Time Scheduling}
-Talk about real time scheduling, how we take cues from real time garbage collectors to setup and understand the behavior of the audit system.
-
+\subsection{Auditing RTS} \mbox{Although} auditing has been widely acknowledged as an important aspect of securing embedded devices \cite{embedded_audit_1,embedded_audit_2,embedded_audit_3},
+the unique challenges that arise when auditing RTS have received only limited attention.
+% VxWorks, a proprietary real-time operating system, provides an error notification system. This system provides a fraction of the auditing capabilities of Linux Audit.
+Wang et al. present ProvThings, an auditing framework for monitoring IoT smart home deployments \cite{Wang2017},
+  but rather than audit low-level embedded device activity their system monitors API-layer flows on the IoT platform's cloud backend.
+Tian et al. present a block-layer auditing framework for portable USB storage  that can be used to diagnose integrity violations \cite{Tian2016}.
+Their embedded device emulates a USB flash drive,
+  but does not consider system call auditing of real-time applications.
+Wu et al. present a network-layer auditing platform that captures the temporal properties of network flows and can
+  thus detect temporal interference \cite{Wu2019}.
+Whereas their system uses auditing to diagnose performance problems in networks,
+  the present study considers the performance problems created by auditing within real-time applications.
+In contrast to these systems, this study highlights
+  the challenges of RTS auditing by attempting to naively incorporate the vanilla Linux Audit system into the real-time task schedule.
