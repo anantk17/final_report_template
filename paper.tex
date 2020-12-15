@@ -3,6 +3,7 @@
 \newcommand{\Sys}{{\sc \textit{Ellipsis}}\xspace}
 \settopmatter{printfolios=true,printccs=false,printacmref=false}
 \renewcommand\footnotetextcopyrightpermission[1]{}
+%\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
 
 \pagestyle{plain} 
 
@@ -23,12 +24,14 @@
 \maketitle
 
 \input{introduction}
-\input{background}
-%\input{measurement-setup}
+%\input{background}
+\input{linux-audit}
+\input{sched}
+\input{measurement-setup}
 \input{evaluation}
-\input{discussion}
+\input{discussion} 
 \input{related_work}
-\input{conclusion}
+\input{conclusion} 
 \input{metadata}
 \bibliographystyle{acm}
 \bibliography{master-ref}

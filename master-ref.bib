@@ -138,22 +138,63 @@
 
 %Log Reduction References
 
-@misc{,
-  title     = {Raspberry Pi 4 Model B specifications - Raspberry Pi},
-  journal   = {Raspberry Pi 4 Model B specifications - Raspberry Pi},
-  publisher = {Raspberry Pi Foundation},
+@misc{rpi4,
+  title     = {{Raspberry Pi 4 Model B specifications - Raspberry Pi}},
+  publisher = {{Raspberry Pi Foundation}},
   url       = {https://www.raspberrypi.org/products/raspberry-pi-4-model-b/specifications/}
 }
 
-@misc{,
+@misc{strace,
   title = {strace},
-  url   = {https://strace.io/}
+  howpublished = {\url{https://strace.io/}},
 }
 
+@misc{a72,
+title={{ARM Cortex A-72}},
+url={https://developer.arm.com/ip-products/processors/cortex-a/cortex-a72},
+howpublished  = {\url{https://developer.arm.com/ip-products/processors/cortex-a/cortex-a72}},
+}
+
+@misc{kernellinux,
+  title={{The Linux Kernel Archives}},
+  author={{Linux Kernel}}
+}
+
+@misc{rpi_rt,
+title={{Raspberry Pi Linux 4.19 Preempt RT}},
+url={https://github.com/raspberrypi/linux/tree/rpi-4.19.y-rt},
+urldate={29/10/2019},
+howpublished = {\url{https://github.com/raspberrypi/linux/tree/rpi-4.19.y-rt}},
+}
+
+@misc{preemptrt,
+  author = {{The Linux Foundation}},
+  title = {Real-Time Linux},
+  year = 2020,
+  howpublished = {\url{https://wiki.linuxfoundation.org/realtime/start}},
+  urldate = {2018-12-18}
+}
+
+@misc{ardupilot,
+  author = {{ArduPilot Development Team and Community}},
+  title = {{ArduPilot}},
+  year = 2020,
+  howpublished = {\url{https://ardupilot.org/}},
+  urldate = {2020-3-23}
+}
+
+@misc{cpu_freq,
+  author = {{Linux Kernel Organization, Inc.}},
+  title = {CPU frequency and voltage scaling code in the Linux kernel},
+  howpublished = {\url{https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt}},
+  urldate = {2020-10-14}
+}
+
+
 @misc{,
-  title   = {Upstream Security Releases 2020 Automotive Cybersecurity Report and Announces First Automotive Threat Intelligence Service},
-  journal = {Upstream Security},
-  url     = {https://www.upstream.auto/news/press-release-global-automotive-cybersecurity-report-2020/}
+  title   = {{Upstream Security Releases 2020 Automotive Cybersecurity Report and Announces First Automotive Threat Intelligence Service}},
+  journal = {{Upstream Security}},
+  howpublished = {\url{https://www.upstream.auto/news/press-release-global-automotive-cybersecurity-report-2020/}},
 }
 
 @misc{,
@@ -397,8 +438,197 @@
   howpublished    = {\url{https://linux.die.net/man/8/audisp-remote}},
 }
 
+@Misc{ftrace,
+  note   = {Last accessed 12-04-2020},
+  title  = {ftrace - Function Tracer},
+  author = {{Steven Rostedt}},
+  howpublished    = {\url{https://www.kernel.org/doc/html/latest/trace/ftrace.html}},
+}
 
-  
+@Misc{ebpf,
+  note   = {Last accessed 12-04-2020},
+  title  = {{eBPF}},
+  howpublished    = {\url{https://ebpf.io/}},
+}
+
+@Misc{bcc,
+  note   = {Last accessed 12-04-2020},
+  title  = {{BCC}},
+  howpublished    = {\url{https://github.com/iovisor/bcc}},
+}
+
+@Misc{bcc_rtlinux,
+  note   = {Last accessed 12-04-2020},
+  author = {Jake Edge},
+  title  = {BPF and the realtime patch set},
+  howpublished    = {\url{https://lwn.net/Articles/802884/}},
+}
+
+https://lwn.net/Articles/365835/
+
+%RTS references
+@book{parmer2010composite,
+  title={Composite: A component-based operating system for predictable and dependable computing},
+  author={Parmer, Gabriel Ammon},
+  year={2010},
+  publisher={{Boston University}}
+}
+
+@inproceedings{song2015c,
+  title={{C'MON}: a predictable monitoring infrastructure for system-level latent fault detection and recovery},
+  author={Song, Jiguo and Parmer, Gabriel},
+  booktitle={21st IEEE Real-Time and Embedded Technology and Applications Symposium},
+  pages={247--258},
+  year={2015},
+  organization={IEEE}
+}
+
+@misc{qnx_logging,
+title={The Instrumented Microkernel},
+howpublished={\url{https://www.qnx.com/developers/docs/6.4.1/neutrino/sys_arch/trace.html}},
+urldate={2/9/2020},
+}
+
+@misc{vxworks_logging,
+title={Tracealyzer for VxWorks},
+howpublished={\url{https://percepio.com/docs/VxWorks/manual/}},
+urldate={2/9/2020},
+}
+
+@misc{audit,
+title={System Auditing},
+howpublished={\url{https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security_guide/chap-system_auditing#sec-audit_system_architecture}},
+urldate={18/12/2018}
+}
+
+@article{lee2011challenges,
+  title={Challenges and research directions in medical cyber--physical systems},
+  author={Lee, Insup and Sokolsky, Oleg and Chen, Sanjian and Hatcliff, John and Jee, Eunkyoung and Kim, BaekGyu and King, Andrew and Mullen-Fortino, Margaret and Park, Soojin and Roederer, Alexander and others},
+  journal={Proceedings of the IEEE}, 
+  volume={100},
+  number={1},
+  pages={75--90},
+  year={2011},
+  publisher={IEEE}
+}
+
+@inproceedings{gurgen2013self,
+  title={Self-aware cyber-physical systems and applications in smart buildings and cities},
+  author={Gurgen, Levent and Gunalp, Ozan and Benazzouz, Yazid and Gallissot, Mathieu},
+  booktitle={2013 Design, Automation \& Test in Europe Conference \& Exhibition (DATE)},
+  pages={1149--1154},
+  year={2013},
+  organization={IEEE}
+}
+
+@article{monostori2016cyber,
+  title={Cyber-physical systems in manufacturing},
+  author={Monostori, L{\'a}szl{\'o} and K{\'a}d{\'a}r, Botond and Bauernhansl, Thomas and Kondoh, Shinsuke and Kumara, S and Reinhart, Gunther and Sauer, Olaf and Schuh, Gunther and Sihn, Wilfried and Ueda, Kenichi},
+  journal={Cirp Annals},
+  volume={65},
+  number={2},
+  pages={621--641},
+  year={2016},
+  publisher={Elsevier}
+}
+
+@article{edr1,
+  title={The black box solution to autonomous liability},
+  author={Bose, Ujjayini},
+  journal={Wash. UL Rev.},
+  volume={92},
+  pages={1325},
+  year={2014},
+  publisher={HeinOnline}
+}
+
+@article{edr2,
+  title={New developments on EDR (Event Data Recorder) for automated vehicles},
+  author={B{\"o}hm, Klaus and Kubjatko, Tibor and Paula, Daniel and Schweiger, Hans-Georg},
+  journal={Open Engineering},
+  volume={10},
+  number={1},
+  pages={140--146},
+  year={2020},
+  publisher={De Gruyter}
+}
+
+@misc{edr_blame2,
+title={Tesla blames drivers who wreck its cars but won’t hand over crash data without a court order},
+howpublished={\url{https://www.consumeraffairs.com/news/tesla-blames-drivers-who-wreck-its-cars-but-wont-hand-over-crash-data-without-a-court-order-053018.html}},
+urldate={30/5/2018},
+author= {Amy Martyn}
+}
+
+
+@misc{edr_blame1,
+title={Tesla/NTSB Feud Shows Complications of Crash Investigations Involving Autonomous Systems},
+howpublished={\url{https://www.caranddriver.com/news/a19785733/teslantsb-feud-shows-complications-of-crash-investigations-involving-autonomous-systems/}},
+urldate={13/4/2018},
+author= {PETE BIGELOW}
+}
+
+@misc{dhs_cpssec,
+title={Cyber Physical Systems Security},
+howpublished={\url{https://www.dhs.gov/science-and-technology/cpssec}},
+urldate={12/4/2020},
+author= {{Department of Homeland Security}}
+}
+
+@misc{cps_article_2,
+title={Step Up Cyber Hygiene: Secure Access to Medical Devices},
+howpublished={\url{https://www.machinedesign.com/medical-design/article/21128232/step-up-cyber-hygiene-secure-access-to-medical-devices}},
+urldate={7/4/2020},
+author= {Rehana Begg}
+}
+
+@misc{cps_article_3,
+title={Coronavirus chaos ripe for hackers to exploit medical device vulnerabilities},
+howpublished={\url{https://www.medtechdive.com/news/coronavirus-chaos-ripe-for-hackers-to-exploit-medical-device-vulnerabilitie/575717/}},
+urldate={8/4/2020},
+author= {Greg Slabodkin}
+}
+
+@misc{cps_article_4,
+title={Medical Device Cybersecurity},
+howpublished={\url{https://www.mitre.org/sites/default/files/publications/pr-18-1550-Medical-Device-Cybersecurity-Playbook.pdf}},
+urldate={1/10/2018},
+author= {{The MITRE Corporation}}
+}
+
+@misc{cps_article_5,
+title={IoT proliferation and widespread 5G: A perfect botnet storm},
+howpublished={\url{https://www.scmagazine.com/home/opinion/executive-insight/iot-proliferation-and-widespread-5g-a-perfect-botnet-storm/}},
+urldate={1/10/2020},
+author= {Mounir Hahad}
+}
+
+@misc{cps_article_6,
+title={Hackers under the hood},
+howpublished={\url{https://eandt.theiet.org/content/articles/2020/03/hackers-under-the-hood/}},
+urldate={17/3/2020},
+author= {James Hayes}
+}
+
+@misc{cps_article_7,
+title={Automotive Cyber Security: A Crash Course on Protecting Cars Against Hackers},
+howpublished = {\url{https://www.thesslstore.com/blog/automotive-cyber-security-a-crash-course-on-protecting-cars-against-hackers/}},
+urldate={26/3/2020},
+author= {Casey Crane}
+}
+
+@misc{cps_article_8,
+title={Industry 4.0: the development of unique cybersecurity},
+howpublished ={\url{https://www.manufacturingglobal.com/technology/industry-40-development-unique-cybersecurity}},
+urldate={12/4/2020},
+author= {David Shepherd}
+}
+
+@misc{elinux,
+title={Embedded Linux},
+howpublished = {\url{https://elinux.org/Main_Page}},
+urldate={20/12/2019},
+}
 
 
 %other references
@@ -2888,7 +3118,7 @@
 
 @misc{embedded_audit_2,
   title   = {SECURING EMBEDDED LINUX},
-  url     = {https://elinux.org/images/5/54/Manderson4.pdf},
+  howpublished = {\url{https://elinux.org/images/5/54/Manderson4.pdf}},
   urldate = {12/4/2020},
   author  = {Mike Anderson}
 }
@@ -4895,7 +5125,7 @@
   url           = {https://www.usenix.org/conference/atc17/technical-sessions/presentation/lind}
 }
 
-@misc{LINUXAG2004,
+@misc{suse2004,
   author        = {{{SUSE LINUXAG}}},
   howpublished  = {{Available at \url{http://uniforum.chi.il.us/slides/HardeningLinux/LAuS-Design.pdf}}},
   title         = {{{Linux Audit-Subsystem De-sign Documentation for Linux Kernel 2.6, v0.1}}},

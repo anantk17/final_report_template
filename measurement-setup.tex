@@ -1,31 +1,31 @@
-\section{Measurement Setup / Design}
-%\subsection{System Model}
-%\todo[inline] {Lay down basic assumptions of the system}
-%\begin{table}[t]%
+\section{Measurement Setup}
+
+All measurements are conducted on the experimental setup described in Table 1. Audit rules\footnote{\label{foot:audit_rules}\scriptsize Specifically, our rule set audits {\tt execve, read, readv, write, writev, sendto, recvfrom, sendmsg, recvmsg, mmap, mprotect, link, symlink, clone, fork, vfork, open, close, creat, openat, mknodat, mknod, dup, dup2, dup3, bind, accept, accept4, connect, rename, setuid, setreuid, setresuid, chmod, fchmod, pipe, pipe2, truncate, ftruncate, sendfile, unlink,  unlinkat, socketpair,splice, init\_module,} and {\tt finit\_module.}} were obtained from prior work \cite{Liu2018,Hassan2019,Gehani2012,Ma2017,Paccagnella2020,Tang2018,Xu2016} and were configured to capture system call events from our benchmarking applications only (\textit{i.e.} background processes were not audited). The kaudit buffer size was configured to the maximum value that allowed stable application execution. To reduce the risk of external perturbations, we disable power management and force the processor to run at the highest frequency. 
+\begin{table}[t]%
     \centering%
     \caption{Evaluation Platform}%
     \label{tab:eval_setup}%
     \resizebox{.8\linewidth}{!}{
     \begin{tabular}{|c|c|}%
     \hline
-    Platform & Raspberry Pi 4~\cite{rpi4}
+    Platform & Raspberry Pi 4~\cite{rpi4} 
     \\ \hline
-    Processor & ARM Cortex A-72 4 core~\cite{a72}
+    Processor & ARM Cortex A-72 4 core~\cite{a72} 
     \\ \hline
     Memory & 4 GB
     \\ \hline
-    OS & Linux 4.19~\cite{kernellinux}
+    OS & Linux 4.19~\cite{kernellinux} 
     \\ \hline
     Patches & Preempt RT~\cite{preemptrt}
     \\ \hline
     Kernel Source & \href{https://github.com/raspberrypi/linux/tree/rpi-4.19.y-rt}{raspberrypi/linux}~\cite{rpi_rt}
     % Kernel Source & raspberrypi/linux~\cite{rpi_rt}
-    \\ \hline
+    \\ \hline 
     Application & \href{https://github.com/ArduPilot/ardupilot}{Ardupilot}~\cite{ardupilot}
     % Application & Ardupilot~\cite{ardupilot}
     \\ \hline
-    Linux Config &
-    \begin{tabular}{r@{ = y}l}
+    Linux Config &  
+    \begin{tabular}{r@{ = y}l} 
     CONFIG\_PREEMPT\_RT\_FULL \\
     CONFIG\_AUDIT \\
     CONFIG\_AUDITSYSCALL    
@@ -34,13 +34,41 @@
      & backlog limit = 50000 \\ 
     Audit Config & backlog wait time = 0 \\
     & failure flag = 1 \#printk
-    \\ \hline
+    \\ \hline 
     CPUFreq Governor & Performance~\cite{cpu_freq}
     \\ \hline
     \end{tabular}%
-    }
+    } 
     \end{table}%
-\subsection{Real Time Task Model}
-\todo[inline]{Add brief description of the task model and highlight our initial insights}
-\subsection{Instrumentation}
-\todo[inline]{Walk through the changes that were made to observe behavior of the audit subsystem.}
+
+\subsection{Real-Time Task Model}
+In this paper, we consider a multi-core system with $M$ identical cores, running real-time applications in a preemptive operating system (\textit{e.g.}, Linux). 
+The system consists of $N$ real-time tasks and scheduled using a fixed-priority scheduling policy. We also assume that the system is schedulable, \textit{i.e.}, the worst-case response time (WCRT) for each task is less than or equal to its deadline. 
+
+There can be other non-real-time tasks scheduled by other non-real-time schedulers in the system. In most modern operating systems, non-real-time tasks only get to run during the slack time (\textit{i.e.}, when no real-time tasks are in the run queue) and hence have little impact on the real-time task schedule. It's worth noting that a ``task'' (the term that is typically used in the Real-Time community) corresponds to a ``thread'' in Linux systems and these two terms are used interchangeably in this paper.
+
+\subsection{Tooling}
+\label{sec:tooling}
+In order to measure the asynchronous overheads of auditing as mentioned in Section \ref{sec:sched}, we first attempted to trace the behavior of audit threads — kauditd and auditd, using kernel tracing tools — ftrace~\cite{ftrace} and eBPF~\cite{ebpf}. 
+
+Ftrace is an internal tracer that helps developers get visibility into the Linux kernel. It is typically used for debugging or analyzing latencies and performance issues that take outside the user space. But on evaluating ftrace, we found the latencies introduced by the tool to be significant as compared to the actual overheads. This was counter-productive to our goals of measuring asynchronous overheads in high fidelity.
+
+BCC~\cite{bcc} is a toolkit for creating efficient kernel tracing and manipulation programs built upon eBPF. It includes tools that help measure function latency and counts with low overhead among other functionality. But on further analysis, we found that eBPF and the Linux real-time patch were incompatible ~\cite{bcc_rtlinux}, thus making BCC unsuitable for our study.
+
+In light of these limitations, we chose to instrument the audit subsystem to capture high resolution event times. We first increased the resolution of the log generation time to nanoseconds by modifying the kernel component and introduced a new timestamp in the audit log, referred to as a \textit{commit timestamp}, by modifying the audit userspace utility before the audit log files were written to the disk. 
+
+The difference between the two timestamps for a given event gives us visibility into the audit latency per event which includes a portion of the synchronous audit overhead along with the entire asynchronous overhead. Further, considering Case II from Section~\ref{sec:sched}, the log maintenance overheads for system call events can be measured using the difference between commit timestamps of consecutive events.
+
+
+\subsection{Benchmarks}
+\label{sec:benchmarks}
+For obtaining measurements from a realistic RTS, we chose ArduPilot as our real world benchmark. ArduPilot is an open source autopilot application that can fully control various classes of autonomous vehicles such as quadcopter, rovers, submarines and fixed wing planes~\cite{ardupilot}. It has been installed in over a million vehicles and has been the basis for many industrial and academic projects. We chose the quadcopter variant of ArduPilot as it has the most stringent temporal requirements within the application suite.
+
+But we found a real-world application to be a poor choice for a benchmark for scenarios which required fine-grained control over the frequency of log generation and overall system load. This required the development of a synthetic benchmark consisting of a multi-threaded application generating a user configured sequence of \textit{getpid} system calls. The \textit{getpid} system call was a natural choice as it has a low runtime overhead and doesn't cause significant side effects in the system.
+
+
+
+
+
+
+
